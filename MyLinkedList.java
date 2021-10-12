@@ -190,40 +190,57 @@ public class MyLinkedList<E> implements Iterable<E>{
         }
         return getNode(index).data;
     }
-    public static Integer getMin(MyLinkedList<Integer> L){
-        Node<Integer>head = L.head;
-        if(head.data == null){
+
+    public Node<E> getMidNode(){
+        if(head == null){
             return null;
         }
-        Integer min = head.data;
-        Node<Integer> curr = head.next;
+        if(head.next == null){
+            return head;
+        }
+
+        Node<E> fast = head;
+        Node<E> slow = head;
+
+        //checks fast.next so that .next.next is valid
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    public Node<E> reverseFromNode(Node<E> revNode){
+        Node<E> prev = null;
+        Node<E> curr = revNode;
+        Node<E> next;
         while(curr != null){
-            if(curr.data.compareTo(min) < 0){
-                min = curr.data;
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    public boolean isPalindrome(){
+        Node<E> curr = head;
+        Node<E> mid = this.reverseFromNode(this.getMidNode());
+
+        while(curr != null){
+            if(curr.data != mid.data){
+                return false;
             }
             curr = curr.next;
+            mid = mid.next;
         }
-        return min;
+        return true;
     }
-    public static int countMin(MyLinkedList<Integer> L){
-        int countOfMin = 0;
-        Integer min = getMin(L);
-        Node<Integer> head = L.head;
-        while(head != null){
-            if(head.data.compareTo(min) == 0){
-                countOfMin++;
-            }
-            head = head.next;
-        }
-        return countOfMin;
 
-    }
     public static void main(String[] args) {
         MyLinkedList<Integer> L = new MyLinkedList<>();
-        L.add(5); L.add(6); L.add(7); L.add(6); L.add(1); L.add(1); L.add(5);
-        System.out.println(getMin(L));
-        System.out.println(countMin(L));
-
+        L.add(5); L.add(6); L.add(7); L.add(99); L.add(7); L.add(6); L.add(5);
+        System.out.println(L);
+        System.out.println(L.isPalindrome());
     }
 
 }

@@ -48,6 +48,7 @@ public class DataTest {
         return S;
     }
 
+
     public static void main(String[] args) {
         DataTest d = new DataTest();
         System.out.println(d.mtd());
