@@ -70,13 +70,14 @@ public class BinarySearchTree<E extends Comparable> extends BinaryTree<E> implem
             return null;
         }
 
-        //tree node is larger than whats required
+
         int compRes = localRoot.data.compareTo(item);
 
         if(compRes == 0){
             return localRoot.data;
         }
 
+        //tree node is smaller than what is required
         else if(compRes > 0)
             return find(localRoot.left, item);
         else
@@ -112,8 +113,8 @@ public class BinarySearchTree<E extends Comparable> extends BinaryTree<E> implem
 
             deleteReturn = localRoot.data;
 
+
             if(localRoot.left == null){
-                //System.out.println("left: "+deleteReturn);
                 return localRoot.right;
             }
             else if(localRoot.right == null){
@@ -121,22 +122,33 @@ public class BinarySearchTree<E extends Comparable> extends BinaryTree<E> implem
             }
             else {
                 //there node has 2 children
-                //finish up 2-case
-                //10/12/21
+                //2 case algorithm:
+                //EXP: get largest element on the left subtree on that node for node replacement || smallest element on right tree
+                //      overwrite the data on the deletion node with replacement and then delete old replacement
+                if(localRoot.left.right == null){
+                    localRoot.data = localRoot.left.data;
+                    localRoot.left = localRoot.left.left;
+                    return localRoot;
+                }
+                localRoot.data = getMax(localRoot.left); //notice that since we know there exists 2 children we can go left
+                return localRoot;
             }
 
         }
-        return localRoot;
     }
     public E getMax(BinaryTreeNode<E> BST){
         if(BST == null){
             return null;
         }
         BinaryTreeNode<E> curr = BST;
+        BinaryTreeNode<E> prev = curr;
         while(curr.right != null){
+            prev = curr;
             curr = curr.right;
         }
-        return curr.data;
+        E data = curr.data;
+        prev.right = null;
+        return data;
     }
 
     @Override
@@ -145,12 +157,11 @@ public class BinarySearchTree<E extends Comparable> extends BinaryTree<E> implem
     }
 
     public static void main(String[] args) {
-        BinarySearchTree<Integer> BST = new BinarySearchTree<Integer>();
-        ArrayList<Integer> insertToTree = new ArrayList<Integer>(Arrays.asList(new Integer[]{6, 5, 4, 8}));
-        for(Integer k: insertToTree){
+        BinarySearchTree<Character> BST = new BinarySearchTree<Character>();
+        ArrayList<Character> insertToTree = new ArrayList<Character>(Arrays.asList(new Character[]{'G', 'O', 'K', 'R', 'B', 'C', 'E'}));
+        for(Character k: insertToTree){
             BST.add(k);
         }
         System.out.println(BST);
-        System.out.println(BST.getMax(BST.root));
     }
 }
