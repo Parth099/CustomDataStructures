@@ -1,3 +1,5 @@
+package LinearStructs;
+
 import java.util.NoSuchElementException;
 
 public class CircularArrayQueue<E> implements CustomQueueReq<E> {

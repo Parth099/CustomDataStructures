@@ -1,6 +1,8 @@
+package LinearStructs;
+
 import java.util.NoSuchElementException;
 
-public class MyStack<E> implements CustomStackReq<E>{
+public class MyStack<E> implements CustomStackReq<E> {
 
     private Node<E> head = null;
     public MyStack(){

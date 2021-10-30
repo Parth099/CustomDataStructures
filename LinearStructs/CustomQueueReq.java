@@ -1,3 +1,5 @@
+package LinearStructs;
+
 public interface CustomQueueReq<T> {
 
     boolean offer(T item); //inserts to the rear of a queue
